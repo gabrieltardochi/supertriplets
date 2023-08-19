@@ -21,9 +21,7 @@ class BatchTripletMiner(nn.Module):
 class BatchHardTripletLoss(BatchTripletMiner):
     def __init__(
         self,
-        distance: [EuclideanDistance, CosineDistance] = EuclideanDistance(
-            squared=False
-        ),
+        distance: [EuclideanDistance, CosineDistance] = EuclideanDistance(squared=False),
         margin: float = 5,
     ):
         super(BatchHardTripletLoss, self).__init__()
@@ -38,9 +36,7 @@ class BatchHardTripletLoss(BatchTripletMiner):
 
         mask_anchor_negative = self.get_anchor_negative_triplet_mask(labels).float()
         max_anchor_negative_dist, _ = pairwise_dist.max(1, keepdim=True)
-        anchor_negative_dist = pairwise_dist + max_anchor_negative_dist * (
-            1.0 - mask_anchor_negative
-        )
+        anchor_negative_dist = pairwise_dist + max_anchor_negative_dist * (1.0 - mask_anchor_negative)
         hardest_negative_dist, _ = anchor_negative_dist.min(1, keepdim=True)
 
         tl = hardest_positive_dist - hardest_negative_dist + self.margin
@@ -52,9 +48,7 @@ class BatchHardTripletLoss(BatchTripletMiner):
 class BatchHardSoftMarginTripletLoss(BatchTripletMiner):
     def __init__(
         self,
-        distance: [EuclideanDistance, CosineDistance] = EuclideanDistance(
-            squared=False
-        ),
+        distance: [EuclideanDistance, CosineDistance] = EuclideanDistance(squared=False),
     ):
         super(BatchHardSoftMarginTripletLoss, self).__init__()
         self.distance = distance
@@ -67,9 +61,7 @@ class BatchHardSoftMarginTripletLoss(BatchTripletMiner):
 
         mask_anchor_negative = self.get_anchor_negative_triplet_mask(labels).float()
         max_anchor_negative_dist, _ = pairwise_dist.max(1, keepdim=True)
-        anchor_negative_dist = pairwise_dist + max_anchor_negative_dist * (
-            1.0 - mask_anchor_negative
-        )
+        anchor_negative_dist = pairwise_dist + max_anchor_negative_dist * (1.0 - mask_anchor_negative)
         hardest_negative_dist, _ = anchor_negative_dist.min(1, keepdim=True)
 
         tl = torch.log1p(torch.exp(hardest_positive_dist - hardest_negative_dist))

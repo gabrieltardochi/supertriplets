@@ -2,9 +2,11 @@ import warnings
 
 import numpy as np
 import torch
-from sklearn.metrics.pairwise import (paired_cosine_distances,
-                                      paired_euclidean_distances,
-                                      paired_manhattan_distances)
+from sklearn.metrics.pairwise import (
+    paired_cosine_distances,
+    paired_euclidean_distances,
+    paired_manhattan_distances,
+)
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
@@ -34,37 +36,23 @@ class TripletEmbeddingsEvaluator:
         metrics = {}
 
         if self.calculate_by_cosine:
-            pos_cosine_distance = paired_cosine_distances(
-                embeddings_anchors, embeddings_positives
-            )
-            neg_cosine_distances = paired_cosine_distances(
-                embeddings_anchors, embeddings_negatives
-            )
-            metrics["accuracy_cosine"] = (
-                pos_cosine_distance < neg_cosine_distances
-            ) / len(pos_cosine_distance)
+            pos_cosine_distance = paired_cosine_distances(embeddings_anchors, embeddings_positives)
+            neg_cosine_distances = paired_cosine_distances(embeddings_anchors, embeddings_negatives)
+            metrics["accuracy_cosine"] = (pos_cosine_distance < neg_cosine_distances) / len(pos_cosine_distance)
 
         if self.calculate_by_manhattan:
-            pos_manhattan_distance = paired_manhattan_distances(
-                embeddings_anchors, embeddings_positives
+            pos_manhattan_distance = paired_manhattan_distances(embeddings_anchors, embeddings_positives)
+            neg_manhattan_distances = paired_manhattan_distances(embeddings_anchors, embeddings_negatives)
+            metrics["accuracy_manhattan"] = (pos_manhattan_distance < neg_manhattan_distances) / len(
+                pos_manhattan_distance
             )
-            neg_manhattan_distances = paired_manhattan_distances(
-                embeddings_anchors, embeddings_negatives
-            )
-            metrics["accuracy_manhattan"] = (
-                pos_manhattan_distance < neg_manhattan_distances
-            ) / len(pos_manhattan_distance)
 
         if self.calculate_by_euclidean:
-            pos_euclidean_distance = paired_euclidean_distances(
-                embeddings_anchors, embeddings_positives
+            pos_euclidean_distance = paired_euclidean_distances(embeddings_anchors, embeddings_positives)
+            neg_euclidean_distances = paired_euclidean_distances(embeddings_anchors, embeddings_negatives)
+            metrics["accuracy_euclidean"] = (pos_euclidean_distance < neg_euclidean_distances) / len(
+                pos_euclidean_distance
             )
-            neg_euclidean_distances = paired_euclidean_distances(
-                embeddings_anchors, embeddings_negatives
-            )
-            metrics["accuracy_euclidean"] = (
-                pos_euclidean_distance < neg_euclidean_distances
-            ) / len(pos_euclidean_distance)
 
         return metrics
 
@@ -79,16 +67,8 @@ class HardTripletsMiner:
         use_gpu_powered_index_if_available=True,
     ) -> None:
         self.examples = examples
-        self.device = (
-            device
-            if device is not None
-            else ("cuda:0" if torch.cuda.is_available() else "cpu")
-        )
-        self.use_gpu_powered_index = (
-            True
-            if torch.cuda.is_available() and use_gpu_powered_index_if_available
-            else False
-        )
+        self.device = device if device is not None else ("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.use_gpu_powered_index = True if torch.cuda.is_available() and use_gpu_powered_index_if_available else False
         self.modality = modality
         self.batch_size = batch_size
         self.model = None
@@ -125,9 +105,7 @@ class HardTripletsMiner:
         self.model.eval()
 
     def _init_dataset(self):
-        self.dataset = SampleEncodingDataset(
-            examples=self.examples, sample_loading_func=self.model.load_input_example
-        )
+        self.dataset = SampleEncodingDataset(examples=self.examples, sample_loading_func=self.model.load_input_example)
 
     def _init_dataloader(self):
         self.dataloader = DataLoader(
@@ -140,18 +118,12 @@ class HardTripletsMiner:
     def _calculate_embeddings(self):
         batch_embeddings = []
         with torch.no_grad():
-            for batch in tqdm(
-                self.dataloader, total=len(self.dataloader), desc="Encoding samples"
-            ):
+            for batch in tqdm(self.dataloader, total=len(self.dataloader), desc="Encoding samples"):
                 inputs = batch["samples"]
                 if "text_input" in batch:
-                    text_inputs = {
-                        k: v.to(self.device) for k, v in inputs["text_input"].items()
-                    }
+                    text_inputs = {k: v.to(self.device) for k, v in inputs["text_input"].items()}
                 if "image_input" in batch:
-                    image_inputs = {
-                        k: v.to(self.device) for k, v in inputs["image_input"].items()
-                    }
+                    image_inputs = {k: v.to(self.device) for k, v in inputs["image_input"].items()}
                 this_batch_embeddings = self.model(image_inputs, text_inputs)
                 batch_embeddings.append(this_batch_embeddings.cpu())
         self.embeddings = torch.cat(batch_embeddings, dim=0).numpy()

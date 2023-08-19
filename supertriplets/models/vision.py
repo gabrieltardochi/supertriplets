@@ -10,9 +10,7 @@ class TIMMResNet18Encoder(nn.Module):
     def __init__(self):
         super().__init__()
         self.timm_image_model_name = "resnet_18"
-        self.image_model = timm.create_model(
-            self.timm_image_model_name, pretrained=True, num_classes=0
-        )
+        self.image_model = timm.create_model(self.timm_image_model_name, pretrained=True, num_classes=0)
 
     def load_input_example(
         self,
@@ -43,9 +41,7 @@ class TIMMEfficientNetB0Encoder(nn.Module):
     def __init__(self):
         super().__init__()
         self.timm_image_model_name = "efficientnet_b0"
-        self.image_model = timm.create_model(
-            self.timm_image_model_name, pretrained=True, num_classes=0
-        )
+        self.image_model = timm.create_model(self.timm_image_model_name, pretrained=True, num_classes=0)
 
     def load_input_example(
         self,

@@ -21,9 +21,7 @@ class EuclideanDistance:
     def __call__(self, a: Tensor, b: Tensor) -> Tensor:
         dot_product = torch.matmul(a, b.t())
         square_norm = torch.diag(dot_product)
-        distances = (
-            square_norm.unsqueeze(0) - 2.0 * dot_product + square_norm.unsqueeze(1)
-        )
+        distances = square_norm.unsqueeze(0) - 2.0 * dot_product + square_norm.unsqueeze(1)
         distances[distances < 0] = 0
         if not self.squared:
             mask = distances.eq(0).float()
