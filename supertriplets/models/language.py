@@ -6,16 +6,10 @@ from transformers import AutoConfig, AutoModel, AutoTokenizer
 class STParaphraseMultilingualMiniLML12V2Encoder(nn.Module):
     def __init__(self) -> None:
         super().__init__()
-        self.hf_text_model_name = (
-            "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-        )
+        self.hf_text_model_name = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
         self.text_config = AutoConfig.from_pretrained(self.hf_text_model_name)
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            self.hf_text_model_name, config=self.text_config
-        )
-        self.text_model = AutoModel.from_pretrained(
-            self.hf_text_model_name, config=self.text_config
-        )
+        self.tokenizer = AutoTokenizer.from_pretrained(self.hf_text_model_name, config=self.text_config)
+        self.text_model = AutoModel.from_pretrained(self.hf_text_model_name, config=self.text_config)
 
     def load_input_example(
         self,
@@ -44,15 +38,9 @@ class STParaphraseMultilingualMiniLML12V2Encoder(nn.Module):
 
     @staticmethod
     def mean_pooling(model_output, attention_mask):
-        token_embeddings = model_output[
-            0
-        ]  # First element of model_output contains all token embeddings
-        input_mask_expanded = (
-            attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
-        )
-        return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(
-            input_mask_expanded.sum(1), min=1e-9
-        )
+        token_embeddings = model_output[0]  # First element of model_output contains all token embeddings
+        input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+        return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
 
 
 class STAllEnglishMiniLML12V2Encoder(nn.Module):
@@ -60,12 +48,8 @@ class STAllEnglishMiniLML12V2Encoder(nn.Module):
         super().__init__()
         self.hf_text_model_name = "sentence-transformers/all-MiniLM-L12-v2"
         self.text_config = AutoConfig.from_pretrained(self.hf_text_model_name)
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            self.hf_text_model_name, config=self.text_config
-        )
-        self.text_model = AutoModel.from_pretrained(
-            self.hf_text_model_name, config=self.text_config
-        )
+        self.tokenizer = AutoTokenizer.from_pretrained(self.hf_text_model_name, config=self.text_config)
+        self.text_model = AutoModel.from_pretrained(self.hf_text_model_name, config=self.text_config)
 
     def load_input_example(
         self,
@@ -94,12 +78,6 @@ class STAllEnglishMiniLML12V2Encoder(nn.Module):
 
     @staticmethod
     def mean_pooling(model_output, attention_mask):
-        token_embeddings = model_output[
-            0
-        ]  # First element of model_output contains all token embeddings
-        input_mask_expanded = (
-            attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
-        )
-        return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(
-            input_mask_expanded.sum(1), min=1e-9
-        )
+        token_embeddings = model_output[0]  # First element of model_output contains all token embeddings
+        input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+        return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)

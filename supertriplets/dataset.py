@@ -29,15 +29,9 @@ class StaticTripletsDataset(Dataset):
         negative = self.negative_examples[idx]
 
         item = {
-            "anchors": self.sample_loading_func(
-                **anchor.data(), **self.sample_loading_kwargs
-            ),
-            "positives": self.sample_loading_func(
-                **positive.data(), **self.sample_loading_kwargs
-            ),
-            "negatives": self.sample_loading_func(
-                **negative.data(), **self.sample_loading_kwargs
-            ),
+            "anchors": self.sample_loading_func(**anchor.data(), **self.sample_loading_kwargs),
+            "positives": self.sample_loading_func(**positive.data(), **self.sample_loading_kwargs),
+            "negatives": self.sample_loading_func(**negative.data(), **self.sample_loading_kwargs),
         }
         return item
 
@@ -99,22 +93,15 @@ class OnlineTripletsDataset(IterableDataset):
             left_border = 0 if label == 0 else self.groups_right_border[label - 1]
             right_border = self.groups_right_border[label]
 
-            selection = [
-                i
-                for i in np.arange(left_border, right_border)
-                if i not in already_seen[label]
-            ]
+            selection = [i for i in np.arange(left_border, right_border) if i not in already_seen[label]]
 
             if len(selection) >= self.in_batch_num_samples_per_label:
-                for element_idx in np.random.choice(
-                    selection, self.in_batch_num_samples_per_label, replace=False
-                ):
+                for element_idx in np.random.choice(selection, self.in_batch_num_samples_per_label, replace=False):
                     count += 1
                     already_seen[label].add(element_idx)
                     yield {
                         "samples": self.sample_loading_func(
-                            **self.grouped_inputs[element_idx].data(),
-                            **self.sample_loading_kwargs
+                            **self.grouped_inputs[element_idx].data(), **self.sample_loading_kwargs
                         )
                     }
 
@@ -147,8 +134,6 @@ class SampleEncodingDataset(Dataset):
         sample = self.examples[idx]
 
         item = {
-            "samples": self.sample_loading_func(
-                sample.data(), **self.sample_loading_kwargs
-            ),
+            "samples": self.sample_loading_func(sample.data(), **self.sample_loading_kwargs),
         }
         return item

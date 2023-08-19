@@ -1,7 +1,8 @@
-from ..models.language import (STAllEnglishMiniLML12V2Encoder,
-                               STParaphraseMultilingualMiniLML12V2Encoder)
-from ..models.multimodal import (CLIPViTB32EnglishEncoder,
-                                 CLIPViTB32MultilingualEncoder)
+from ..models.language import (
+    STAllEnglishMiniLML12V2Encoder,
+    STParaphraseMultilingualMiniLML12V2Encoder,
+)
+from ..models.multimodal import CLIPViTB32EnglishEncoder, CLIPViTB32MultilingualEncoder
 from ..models.vision import TIMMEfficientNetB0Encoder, TIMMResNet18Encoder
 
 MODEL_ZOO = {
