@@ -7,4 +7,4 @@ install: pyproject.toml
 	$(PIP) install --upgrade pip
 	$(PIP) install .[dev]
 clean:
-	rm -rf **/.ipynb_checkpoints **/.pytest_cache **/__pycache__ **/**/__pycache__ .ipynb_checkpoints .pytest_cache *.egg-info .coverage** .ruff_cache
+	rm -rf **/.ipynb_checkpoints **/.pytest_cache **/__pycache__ **/**/__pycache__ .ipynb_checkpoints .pytest_cache *.egg-info .coverage** .ruff_cache build dist
