@@ -5,7 +5,7 @@ from torch import Tensor
 from .distance import CosineDistance, EuclideanDistance
 
 
-class BatchTripletMiner:
+class BaseBatchTripletMiner:
     @staticmethod
     def get_anchor_positive_triplet_mask(labels: Tensor):
         indices_equal = torch.eye(labels.size(0), device=labels.device).bool()
@@ -18,7 +18,7 @@ class BatchTripletMiner:
         return ~(labels.unsqueeze(0) == labels.unsqueeze(1))
 
 
-class BatchHardTripletLoss(BatchTripletMiner, nn.Module):
+class BatchHardTripletLoss(BaseBatchTripletMiner, nn.Module):
     def __init__(
         self,
         distance: [EuclideanDistance, CosineDistance] = EuclideanDistance(squared=False),
@@ -45,7 +45,7 @@ class BatchHardTripletLoss(BatchTripletMiner, nn.Module):
         return triplet_loss
 
 
-class BatchHardSoftMarginTripletLoss(BatchTripletMiner, nn.Module):
+class BatchHardSoftMarginTripletLoss(BaseBatchTripletMiner, nn.Module):
     def __init__(
         self,
         distance: [EuclideanDistance, CosineDistance] = EuclideanDistance(squared=False),
