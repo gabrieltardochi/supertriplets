@@ -1,3 +1,5 @@
+from typing import Union
+
 import torch
 import torch.nn as nn
 from torch import Tensor
@@ -7,23 +9,23 @@ from .distance import CosineDistance, EuclideanDistance
 
 class BaseBatchTripletMiner:
     @staticmethod
-    def get_anchor_positive_triplet_mask(labels: Tensor):
+    def get_anchor_positive_triplet_mask(labels: Tensor) -> Tensor:
         indices_equal = torch.eye(labels.size(0), device=labels.device).bool()
         indices_not_equal = ~indices_equal
         labels_equal = labels.unsqueeze(0) == labels.unsqueeze(1)
         return labels_equal & indices_not_equal
 
     @staticmethod
-    def get_anchor_negative_triplet_mask(labels: Tensor):
+    def get_anchor_negative_triplet_mask(labels: Tensor) -> Tensor:
         return ~(labels.unsqueeze(0) == labels.unsqueeze(1))
 
 
 class BatchHardTripletLoss(BaseBatchTripletMiner, nn.Module):
     def __init__(
         self,
-        distance: [EuclideanDistance, CosineDistance] = EuclideanDistance(squared=False),
+        distance: Union[EuclideanDistance, CosineDistance] = EuclideanDistance(squared=False),
         margin: float = 5,
-    ):
+    ) -> None:
         super(BatchHardTripletLoss, self).__init__()
         self.distance = distance
         self.margin = margin
@@ -48,8 +50,8 @@ class BatchHardTripletLoss(BaseBatchTripletMiner, nn.Module):
 class BatchHardSoftMarginTripletLoss(BaseBatchTripletMiner, nn.Module):
     def __init__(
         self,
-        distance: [EuclideanDistance, CosineDistance] = EuclideanDistance(squared=False),
-    ):
+        distance: Union[EuclideanDistance, CosineDistance] = EuclideanDistance(squared=False),
+    ) -> None:
         super(BatchHardSoftMarginTripletLoss, self).__init__()
         self.distance = distance
 

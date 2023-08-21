@@ -1,4 +1,7 @@
+from typing import Callable, Dict, List, Optional, Tuple, Union
+
 import numpy as np
+from torch import Tensor
 from torch.utils.data import Dataset, IterableDataset
 
 from .sample import ImageSample, TextImageSample, TextSample
@@ -7,12 +10,12 @@ from .sample import ImageSample, TextImageSample, TextSample
 class StaticTripletsDataset(Dataset):
     def __init__(
         self,
-        anchor_examples: list[TextSample, ImageSample, TextImageSample],
-        positive_examples: list[TextSample, ImageSample, TextImageSample],
-        negative_examples: list[TextSample, ImageSample, TextImageSample],
-        sample_loading_func,
-        sample_loading_kwargs,
-    ):
+        anchor_examples: List[Union[TextSample, ImageSample, TextImageSample]],
+        positive_examples: List[Union[TextSample, ImageSample, TextImageSample]],
+        negative_examples: List[Union[TextSample, ImageSample, TextImageSample]],
+        sample_loading_func: Callable,
+        sample_loading_kwargs: Optional[Dict],
+    ) -> None:
         super().__init__()
         self.anchor_examples = anchor_examples
         self.positive_examples = positive_examples
@@ -20,10 +23,10 @@ class StaticTripletsDataset(Dataset):
         self.sample_loading_func = sample_loading_func
         self.sample_loading_kwargs = sample_loading_kwargs
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.anchor_examples)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx) -> Dict[str, Dict[str, Tensor]]:
         anchor = self.anchor_examples[idx]
         positive = self.positive_examples[idx]
         negative = self.negative_examples[idx]
@@ -39,12 +42,12 @@ class StaticTripletsDataset(Dataset):
 class OnlineTripletsDataset(IterableDataset):
     def __init__(
         self,
-        examples: list[TextSample, ImageSample, TextImageSample],
+        examples: List[Union[TextSample, ImageSample, TextImageSample]],
         in_batch_num_samples_per_label: int,
         batch_size: int,
-        sample_loading_func,
-        sample_loading_kwargs,
-    ):
+        sample_loading_func: Callable,
+        sample_loading_kwargs: Optional[Dict],
+    ) -> None:
         super().__init__()
         assert (
             batch_size % in_batch_num_samples_per_label
@@ -56,7 +59,7 @@ class OnlineTripletsDataset(IterableDataset):
         self.grouped_inputs, self.groups_right_border = self._group_examples_by_label()
         self.label_range = self._generate_shuffled_label_range()
 
-    def _group_examples_by_label(self):
+    def _group_examples_by_label(self) -> Tuple[List[Union[TextSample, ImageSample, TextImageSample]], List[int]]:
         label2ex = {}
         for example in self.examples:
             if example.label not in label2ex:
@@ -75,12 +78,12 @@ class OnlineTripletsDataset(IterableDataset):
 
         return grouped_inputs, groups_right_border
 
-    def _generate_shuffled_label_range(self):
+    def _generate_shuffled_label_range(self) -> np.ndarray:
         label_range = np.arange(len(self.groups_right_border))
         np.random.shuffle(label_range)
         return label_range
 
-    def __iter__(self):
+    def __iter__(self) -> Optional[Dict[str, Dict[str, Tensor]]]:
         label_idx = 0
         count = 0
         already_seen = {}
@@ -111,26 +114,26 @@ class OnlineTripletsDataset(IterableDataset):
                 already_seen = {}
                 np.random.shuffle(self.label_range)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.grouped_inputs)
 
 
 class SampleEncodingDataset(Dataset):
     def __init__(
         self,
-        examples: list[TextSample, ImageSample, TextImageSample],
-        sample_loading_func,
-        sample_loading_kwargs,
-    ):
+        examples: List[Union[TextSample, ImageSample, TextImageSample]],
+        sample_loading_func: Callable,
+        sample_loading_kwargs: Optional[Dict],
+    ) -> None:
         super().__init__()
         self.examples = examples
         self.sample_loading_func = sample_loading_func
         self.sample_loading_kwargs = sample_loading_kwargs
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.examples)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx) -> Dict[str, Dict[str, Tensor]]:
         sample = self.examples[idx]
 
         item = {

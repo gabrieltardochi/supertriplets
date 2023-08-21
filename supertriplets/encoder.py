@@ -1,4 +1,8 @@
+from typing import List, Literal, Union
+
+import numpy as np
 import torch
+from torch import nn
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
@@ -10,12 +14,14 @@ from .sample import ImageSample, TextImageSample, TextSample
 class PretrainedSampleEncoder:
     def __init__(
         self,
-        modality="text-multilingual",
+        modality: Literal[
+            "text_english", "text_multilingual", "text_english-image", "text_multilingual-image", "image"
+        ],
     ) -> None:
         self.modality = modality
         self.model = self._get_model()
 
-    def _get_model(self):
+    def _get_model(self) -> nn.Module:
         if self.modality == "text_english":
             return load_pretrained_model(model_name="STAllEnglishMiniLML12V2Encoder")
         elif self.modality == "text_multilingual":
@@ -29,7 +35,9 @@ class PretrainedSampleEncoder:
         else:
             raise NotImplementedError(f"Model loading for modality '{self.modality}' is not implemented.")
 
-    def _get_dataloader(self, examples: list[TextSample, ImageSample, TextImageSample], batch_size: int = 32):
+    def _get_dataloader(
+        self, examples: List[Union[TextSample, ImageSample, TextImageSample]], batch_size: int = 32
+    ) -> DataLoader:
         dataset = SampleEncodingDataset(examples=examples, sample_loading_func=self.model.load_input_example)
         dataloader = DataLoader(
             dataset=dataset,
@@ -39,7 +47,7 @@ class PretrainedSampleEncoder:
         )
         return dataloader
 
-    def _calculate_embeddings(self, dataloader, device):
+    def _calculate_embeddings(self, dataloader: DataLoader, device: Union[str, torch.device]) -> np.ndarray:
         batch_embeddings = []
         with torch.no_grad():
             for batch in tqdm(dataloader, total=len(dataloader), desc="Encoding samples"):
@@ -53,7 +61,12 @@ class PretrainedSampleEncoder:
         embeddings = torch.cat(batch_embeddings, dim=0).numpy()
         return embeddings
 
-    def encode(self, examples: list[TextSample, ImageSample, TextImageSample], device, batch_size):
+    def encode(
+        self,
+        examples: List[Union[TextSample, ImageSample, TextImageSample]],
+        device: Union[str, torch.device],
+        batch_size: int = 32,
+    ) -> np.ndarray:
         self.model.to(device)
         self.model.eval()
         dataloader = self._get_dataloader(examples=examples, batch_size=batch_size)

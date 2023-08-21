@@ -1,10 +1,20 @@
+from typing import List, Tuple, Union
+
 import faiss
 import numpy as np
 
+from .sample import ImageSample, TextImageSample, TextSample
+
 
 class TripletMiningEmbeddingsIndex:
-    def __init__(self, samples, embeddings, gpu=True, normalize_l2=True):
-        self.samples = samples
+    def __init__(
+        self,
+        examples: List[Union[TextSample, ImageSample, TextImageSample]],
+        embeddings: np.ndarray,
+        gpu: bool = True,
+        normalize_l2: bool = True,
+    ) -> None:
+        self.examples = examples
         self.db_vectors = embeddings.copy().astype(np.float32)
         self.db_ids = np.array(list(range(len(embeddings)))).astype(np.int64)
         self.dim = len(self.db_vectors[0])
@@ -19,7 +29,13 @@ class TripletMiningEmbeddingsIndex:
             gpu_res = faiss.StandardGpuResources()
             self.index = faiss.index_cpu_to_gpu(gpu_res, 0, self.index)
 
-    def search_pos_and_neg_samples(self, array_of_queries, sample, k=2048):
+    def search_pos_and_neg_samples(
+        self, array_of_queries: np.ndarray, sample: [TextSample, ImageSample, TextImageSample], k: int = 2048
+    ) -> Tuple[
+        List[Union[TextSample, ImageSample, TextImageSample]],
+        List[Union[TextSample, ImageSample, TextImageSample]],
+        List[Union[TextSample, ImageSample, TextImageSample]],
+    ]:
         search_query = array_of_queries.copy().astype(np.float32)
         if self.normalize_l2:
             faiss.normalize_L2(search_query)

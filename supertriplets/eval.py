@@ -1,4 +1,5 @@
 import warnings
+from typing import Dict, List, Tuple, Union
 
 import numpy as np
 import torch
@@ -16,9 +17,9 @@ from .sample import ImageSample, TextImageSample, TextSample
 class TripletEmbeddingsEvaluator:
     def __init__(
         self,
-        calculate_by_cosine=True,
-        calculate_by_manhattan=True,
-        calculate_by_euclidean=True,
+        calculate_by_cosine: bool = True,
+        calculate_by_manhattan: bool = True,
+        calculate_by_euclidean: bool = True,
     ) -> None:
         self.calculate_by_cosine = calculate_by_cosine
         self.calculate_by_manhattan = calculate_by_manhattan
@@ -29,7 +30,7 @@ class TripletEmbeddingsEvaluator:
         embeddings_anchors: np.ndarray,
         embeddings_positives: np.ndarray,
         embeddings_negatives: np.ndarray,
-    ) -> dict:
+    ) -> Dict:
         metrics = {}
 
         if self.calculate_by_cosine:
@@ -57,24 +58,30 @@ class TripletEmbeddingsEvaluator:
 class HardTripletsMiner:
     def __init__(
         self,
-        examples: list[TextSample, ImageSample, TextImageSample],
-        embeddings: np.array,
-        use_gpu_powered_index_if_available=True,
+        examples: List[Union[TextSample, ImageSample, TextImageSample]],
+        embeddings: np.ndarray,
+        use_gpu_powered_index_if_available: bool = True,
     ) -> None:
         self.examples = examples
         self.embeddings = embeddings
         self.use_gpu_powered_index = True if torch.cuda.is_available() and use_gpu_powered_index_if_available else False
         self.index = self._get_index()
 
-    def _get_index(self):
+    def _get_index(self) -> None:
         self.index = TripletMiningEmbeddingsIndex(
-            samples=self.examples,
+            examples=self.examples,
             embeddings=self.embeddings,
             gpu=self.use_gpu_powered_index,
             normalize_l2=True,
         )
 
-    def mine(self, sample_from_topk_hardest=10):
+    def mine(
+        self, sample_from_topk_hardest: int = 10
+    ) -> Tuple[
+        List[Union[TextSample, ImageSample, TextImageSample]],
+        List[Union[TextSample, ImageSample, TextImageSample]],
+        List[Union[TextSample, ImageSample, TextImageSample]],
+    ]:
         anchors = []
         positives = []
         negatives = []

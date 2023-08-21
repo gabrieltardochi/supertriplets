@@ -3,7 +3,7 @@ from torch import Tensor
 
 
 class CosineDistance:
-    def __init__(self, alredy_l2_normalized_vectors=False) -> None:
+    def __init__(self, alredy_l2_normalized_vectors: bool = False) -> None:
         self.alredy_l2_normalized_vectors = alredy_l2_normalized_vectors
 
     def __call__(self, a: Tensor, b: Tensor) -> Tensor:
@@ -15,7 +15,7 @@ class CosineDistance:
 
 
 class EuclideanDistance:
-    def __init__(self, squared=False) -> None:
+    def __init__(self, squared: bool = False) -> None:
         self.squared = squared
 
     def __call__(self, a: Tensor, b: Tensor) -> Tensor:

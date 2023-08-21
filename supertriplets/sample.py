@@ -1,4 +1,5 @@
 import os
+from typing import Dict
 
 
 class TextSample:
@@ -7,11 +8,11 @@ class TextSample:
         self.label = label
         self._validate_input()
 
-    def _validate_input(self):
+    def _validate_input(self) -> None:
         assert type(self.text) == str, f"{self.__class__.__name__} 'text' should be a string"
         assert type(self.label) == int, f"{self.__class__.__name__} 'label' should be an integer"
 
-    def data(self):
+    def data(self) -> Dict:
         return dict(text=self.text, label=self.label)
 
     def __repr__(self) -> str:
@@ -24,12 +25,12 @@ class ImageSample:
         self.label = label
         self._validate_input()
 
-    def _validate_input(self):
+    def _validate_input(self) -> None:
         assert type(self.image_path) == str, f"{self.__class__.__name__} 'image_path' should be a string"
         assert os.path.exists(self.image_path), f"{self.__class__.__name__} 'image_path' should exist"
         assert type(self.label) == int, f"{self.__class__.__name__} 'label' should be an integer"
 
-    def data(self):
+    def data(self) -> Dict:
         return dict(image_path=self.image_path, label=self.label)
 
     def __repr__(self) -> str:
@@ -43,13 +44,13 @@ class TextImageSample:
         self.label = label
         self._validate_input()
 
-    def _validate_input(self):
+    def _validate_input(self) -> None:
         assert type(self.text) == str, f"{self.__class__.__name__} 'text' should be a string"
         assert type(self.image_path) == str, f"{self.__class__.__name__} 'image_path' should be a string"
         assert os.path.exists(self.image_path), f"{self.__class__.__name__} 'image_path' should exist"
         assert type(self.label) == int, f"{self.__class__.__name__} 'label' should be an integer"
 
-    def data(self):
+    def data(self) -> Dict:
         return dict(text=self.text, image_path=self.image_path, label=self.label)
 
     def __repr__(self) -> str:
