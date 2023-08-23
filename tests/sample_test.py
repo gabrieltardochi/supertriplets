@@ -1,5 +1,6 @@
 import pytest
-from supertriplets.sample import TextSample, ImageSample, TextImageSample
+
+from supertriplets.sample import ImageSample, TextImageSample, TextSample
 
 
 def test_valid_text_sample(valid_text, valid_label):
@@ -8,13 +9,13 @@ def test_valid_text_sample(valid_text, valid_label):
     assert text_sample.data() == expected_text_sample_data
 
 
-def test_valid_text_image_sample(valid_text, valid_image_path, valid_label):    
+def test_valid_text_image_sample(valid_text, valid_image_path, valid_label):
     text_image_sample = TextImageSample(text=valid_text, image_path=valid_image_path, label=valid_label)
     expected_text_image_sample_data = {"text": valid_text, "image_path": valid_image_path, "label": valid_label}
     assert text_image_sample.data() == expected_text_image_sample_data
 
 
-def test_valid_image_sample(valid_image_path, valid_label):    
+def test_valid_image_sample(valid_image_path, valid_label):
     image_sample = ImageSample(image_path=valid_image_path, label=valid_label)
     expected_image_sample_data = {"image_path": valid_image_path, "label": valid_label}
     assert image_sample.data() == expected_image_sample_data
