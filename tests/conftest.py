@@ -1,5 +1,5 @@
 import pytest
-
+import torch
 
 @pytest.fixture(scope="session", params=["foo", "bar"])
 def valid_text(request):
@@ -25,3 +25,21 @@ def invalid_image_path(request):
 def invalid_label(request):
     return request.param
 
+@pytest.fixture(scope="session")
+def torch_embeddings():
+    return torch.tensor([[0.1, 0.3, 0.5],
+                        [0.6, 0.8, 1.0],
+                        [0.8, 0.6, 0.0],
+                        [0.9, 0.2, -0.5]])
+
+@pytest.fixture(scope="session")
+def torch_labels():
+    return torch.tensor([0, 1, 1, 0])
+
+@pytest.fixture(scope="session")
+def torch_example_vectors():
+    return torch.tensor([
+        [1.0, 2.0, 3.0],
+        [4.0, 5.0, 6.0],
+        [7.0, 8.0, 9.0]
+    ])
