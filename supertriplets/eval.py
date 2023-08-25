@@ -34,22 +34,22 @@ class TripletEmbeddingsEvaluator:
         metrics = {}
 
         if self.calculate_by_cosine:
-            pos_cosine_distance = paired_cosine_distances(embeddings_anchors, embeddings_positives)
+            pos_cosine_distances = paired_cosine_distances(embeddings_anchors, embeddings_positives)
             neg_cosine_distances = paired_cosine_distances(embeddings_anchors, embeddings_negatives)
-            metrics["accuracy_cosine"] = (pos_cosine_distance < neg_cosine_distances) / len(pos_cosine_distance)
+            metrics["accuracy_cosine"] = sum(pos_cosine_distances < neg_cosine_distances) / len(pos_cosine_distances)
 
         if self.calculate_by_manhattan:
-            pos_manhattan_distance = paired_manhattan_distances(embeddings_anchors, embeddings_positives)
+            pos_manhattan_distances = paired_manhattan_distances(embeddings_anchors, embeddings_positives)
             neg_manhattan_distances = paired_manhattan_distances(embeddings_anchors, embeddings_negatives)
-            metrics["accuracy_manhattan"] = (pos_manhattan_distance < neg_manhattan_distances) / len(
-                pos_manhattan_distance
+            metrics["accuracy_manhattan"] = sum(pos_manhattan_distances < neg_manhattan_distances) / len(
+                pos_manhattan_distances
             )
 
         if self.calculate_by_euclidean:
-            pos_euclidean_distance = paired_euclidean_distances(embeddings_anchors, embeddings_positives)
+            pos_euclidean_distances = paired_euclidean_distances(embeddings_anchors, embeddings_positives)
             neg_euclidean_distances = paired_euclidean_distances(embeddings_anchors, embeddings_negatives)
-            metrics["accuracy_euclidean"] = (pos_euclidean_distance < neg_euclidean_distances) / len(
-                pos_euclidean_distance
+            metrics["accuracy_euclidean"] = sum(pos_euclidean_distances < neg_euclidean_distances) / len(
+                pos_euclidean_distances
             )
 
         return metrics
@@ -68,7 +68,7 @@ class HardTripletsMiner:
         self.index = self._get_index()
 
     def _get_index(self) -> None:
-        self.index = TripletMiningEmbeddingsIndex(
+        return TripletMiningEmbeddingsIndex(
             examples=self.examples,
             embeddings=self.embeddings,
             gpu=self.use_gpu_powered_index,
