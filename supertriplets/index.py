@@ -39,13 +39,13 @@ class TripletMiningEmbeddingsIndex:
         search_query = array_of_queries.copy().astype(np.float32)
         if self.normalize_l2:
             faiss.normalize_L2(search_query)
-        scores, ids = self.index.search(search_query, k)
+        scores, ids = self.index.search(search_query, min(k, len(self.db_ids)))
         pos_samples = []
         neg_samples = []
         for s, i in zip(scores.squeeze().tolist(), ids.squeeze().tolist()):
             if s >= 1.0:
                 continue
-            this_similar_sample = self.samples[i]
+            this_similar_sample = self.examples[i]
             if this_similar_sample.label == sample.label:
                 pos_samples.append(this_similar_sample)
             else:
