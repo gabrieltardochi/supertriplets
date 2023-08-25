@@ -56,20 +56,20 @@ class CLIPViTB32MultilingualEncoder(nn.Module):
         label = torch.tensor(label)
         return {"text_input": text_input, "image_input": image_input, "label": label}
 
-    def forward(self, image_inputs: Dict[str, Tensor], text_inputs: Dict[str, Tensor]) -> Tensor:
-        image_features = self.get_image_features(image_inputs)
-        text_features = self.get_text_features(text_inputs)
+    def forward(self, image_input: Dict[str, Tensor], text_input: Dict[str, Tensor]) -> Tensor:
+        image_features = self.get_image_features(image_input)
+        text_features = self.get_text_features(text_input)
         multimodal_features = image_features + text_features
         return multimodal_features.squeeze()
 
-    def get_image_features(self, image_inputs: Dict[str, Tensor]) -> Tensor:
-        vision_pooled_output = self.vision_model(**image_inputs)[1]  # pooled_output
+    def get_image_features(self, image_input: Dict[str, Tensor]) -> Tensor:
+        vision_pooled_output = self.vision_model(**image_input)[1]  # pooled_output
         image_features = self.visual_projection(vision_pooled_output)
         return image_features
 
-    def get_text_features(self, text_inputs: Dict[str, Tensor]) -> Tensor:
-        text_token_embeddings = self.text_model(**text_inputs)[0]  # all token embeddings
-        text_pooled_output = self.text_mean_pooling(text_token_embeddings, text_inputs["attention_mask"])
+    def get_text_features(self, text_input: Dict[str, Tensor]) -> Tensor:
+        text_token_embeddings = self.text_model(**text_input)[0]  # all token embeddings
+        text_pooled_output = self.text_mean_pooling(text_token_embeddings, text_input["attention_mask"])
         text_features = self.textual_projection(text_pooled_output)
         return text_features
 
@@ -125,20 +125,20 @@ class CLIPViTB32EnglishEncoder(nn.Module):
         label = torch.tensor(label)
         return {"text_input": text_input, "image_input": image_input, "label": label}
 
-    def forward(self, image_inputs: Dict[str, Tensor], text_inputs: Dict[str, Tensor]) -> Tensor:
-        image_features = self.get_image_features(image_inputs)
-        text_features = self.get_text_features(text_inputs)
+    def forward(self, image_input: Dict[str, Tensor], text_input: Dict[str, Tensor]) -> Tensor:
+        image_features = self.get_image_features(image_input)
+        text_features = self.get_text_features(text_input)
         multimodal_features = image_features + text_features
         return multimodal_features.squeeze()
 
-    def get_image_features(self, image_inputs: Dict[str, Tensor]) -> Tensor:
-        vision_pooled_output = self.vision_model(**image_inputs)[1]  # pooled_output
+    def get_image_features(self, image_input: Dict[str, Tensor]) -> Tensor:
+        vision_pooled_output = self.vision_model(**image_input)[1]  # pooled_output
         image_features = self.visual_projection(vision_pooled_output)
         return image_features
 
-    def get_text_features(self, text_inputs: Dict[str, Tensor]) -> Tensor:
-        text_token_embeddings = self.text_model(**text_inputs)[0]  # all token embeddings
-        text_pooled_output = self.text_mean_pooling(text_token_embeddings, text_inputs["attention_mask"])
+    def get_text_features(self, text_input: Dict[str, Tensor]) -> Tensor:
+        text_token_embeddings = self.text_model(**text_input)[0]  # all token embeddings
+        text_pooled_output = self.text_mean_pooling(text_token_embeddings, text_input["attention_mask"])
         text_features = self.textual_projection(text_pooled_output)
         return text_features
 

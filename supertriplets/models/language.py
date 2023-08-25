@@ -33,11 +33,11 @@ class STParaphraseMultilingualMiniLML12V2Encoder(nn.Module):
         label = torch.tensor(label)
         return {"text_input": text_input, "label": label}
 
-    def forward(self, text_inputs: Dict[str, Tensor]) -> Tensor:
-        token_embeddings = self.text_model(**text_inputs)[
+    def forward(self, text_input: Dict[str, Tensor]) -> Tensor:
+        token_embeddings = self.text_model(**text_input)[
             0
         ]  # First element of model_output contains all token embeddings
-        text_features = self.mean_pooling(token_embeddings, text_inputs["attention_mask"])
+        text_features = self.mean_pooling(token_embeddings, text_input["attention_mask"])
         return text_features.squeeze()
 
     @staticmethod
@@ -74,11 +74,11 @@ class STAllEnglishMiniLML12V2Encoder(nn.Module):
         label = torch.tensor(label)
         return {"text_input": text_input, "label": label}
 
-    def forward(self, text_inputs: Dict[str, Tensor]) -> Tensor:
-        token_embeddings = self.text_model(**text_inputs)[
+    def forward(self, text_input: Dict[str, Tensor]) -> Tensor:
+        token_embeddings = self.text_model(**text_input)[
             0
         ]  # First element of model_output contains all token embeddings
-        text_features = self.mean_pooling(token_embeddings, text_inputs["attention_mask"])
+        text_features = self.mean_pooling(token_embeddings, text_input["attention_mask"])
         return text_features.squeeze()
 
     @staticmethod

@@ -34,8 +34,8 @@ class TIMMResNet18Encoder(nn.Module):
         label = torch.tensor(label)
         return {"image_input": image_input, "label": label}
 
-    def forward(self, image_inputs: Tensor) -> Tensor:
-        image_features = self.model(image_inputs)
+    def forward(self, image_input: Tensor) -> Tensor:
+        image_features = self.model(image_input)
         return image_features.squeeze()
 
 
@@ -65,6 +65,6 @@ class TIMMEfficientNetB0Encoder(nn.Module):
         label = torch.tensor(label)
         return {"image_input": image_input, "label": label}
 
-    def forward(self, image_inputs: Tensor) -> Tensor:
-        image_features = self.model(image_inputs)
+    def forward(self, image_input: Tensor) -> Tensor:
+        image_features = self.model(image_input)
         return image_features.squeeze()
