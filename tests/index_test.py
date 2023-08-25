@@ -24,7 +24,6 @@ def test_index_search_pos_and_neg_samples(examples, embeddings):
         sample=anchor,
         k=10,
     )
-    print(possible_negatives)
     assert possible_positives[0] == examples[0]
     assert set(possible_positives) == set(examples[:2])
     assert set(possible_negatives) == set(examples[2:])
