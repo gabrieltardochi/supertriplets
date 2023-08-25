@@ -14,7 +14,7 @@ class StaticTripletsDataset(Dataset):
         positive_examples: List[Union[TextSample, ImageSample, TextImageSample]],
         negative_examples: List[Union[TextSample, ImageSample, TextImageSample]],
         sample_loading_func: Callable,
-        sample_loading_kwargs: Optional[Dict],
+        sample_loading_kwargs: Dict = {},
     ) -> None:
         super().__init__()
         self.anchor_examples = anchor_examples
@@ -46,7 +46,7 @@ class OnlineTripletsDataset(IterableDataset):
         in_batch_num_samples_per_label: int,
         batch_size: int,
         sample_loading_func: Callable,
-        sample_loading_kwargs: Optional[Dict],
+        sample_loading_kwargs: Dict = {},
     ) -> None:
         super().__init__()
         assert (
@@ -123,7 +123,7 @@ class SampleEncodingDataset(Dataset):
         self,
         examples: List[Union[TextSample, ImageSample, TextImageSample]],
         sample_loading_func: Callable,
-        sample_loading_kwargs: Optional[Dict],
+        sample_loading_kwargs: Dict = {},
     ) -> None:
         super().__init__()
         self.examples = examples
@@ -137,6 +137,6 @@ class SampleEncodingDataset(Dataset):
         sample = self.examples[idx]
 
         item = {
-            "samples": self.sample_loading_func(sample.data(), **self.sample_loading_kwargs),
+            "samples": self.sample_loading_func(**sample.data(), **self.sample_loading_kwargs),
         }
         return item
