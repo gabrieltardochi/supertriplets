@@ -9,7 +9,17 @@ from supertriplets.loss import (
 )
 
 
-def test_base_batch_triplet_miner(torch_labels):
+@pytest.fixture
+def embeddings():
+    return torch.tensor([[0.1, 0.3, 0.5], [0.6, 0.8, 1.0], [0.8, 0.6, 0.0], [0.9, 0.2, -0.5]])
+
+
+@pytest.fixture
+def labels():
+    return torch.tensor([0, 1, 1, 0])
+
+
+def test_base_batch_triplet_miner(labels):
     miner = BaseBatchTripletMiner()
     pos_expected = torch.tensor(
         [
@@ -22,8 +32,8 @@ def test_base_batch_triplet_miner(torch_labels):
     neg_expected = torch.tensor(
         [[False, True, True, False], [True, False, False, True], [True, False, False, True], [False, True, True, False]]
     )
-    assert miner.get_anchor_positive_triplet_mask(labels=torch_labels).equal(pos_expected)
-    assert miner.get_anchor_negative_triplet_mask(labels=torch_labels).equal(neg_expected)
+    assert miner.get_anchor_positive_triplet_mask(labels=labels).equal(pos_expected)
+    assert miner.get_anchor_negative_triplet_mask(labels=labels).equal(neg_expected)
 
 
 @pytest.mark.parametrize(
@@ -33,8 +43,7 @@ def test_base_batch_triplet_miner(torch_labels):
         (CosineDistance(alredy_l2_normalized_vectors=False), torch.tensor(5.6197)),
     ],
 )
-def test_batch_hard_triplet_loss(distance, expected_loss):
-    embeddings = torch.tensor([[0.1, 0.3, 0.5], [0.6, 0.8, 1.0], [0.8, 0.6, 0.0], [0.9, 0.2, -0.5]])
+def test_batch_hard_triplet_loss(embeddings, distance, expected_loss):
     labels = torch.tensor([0, 1, 1, 0])
     criterion = BatchHardTripletLoss(distance=distance, margin=5.0)
     loss = criterion(embeddings=embeddings, labels=labels)
@@ -49,8 +58,7 @@ def test_batch_hard_triplet_loss(distance, expected_loss):
         (CosineDistance(alredy_l2_normalized_vectors=False), torch.tensor(1.0709)),
     ],
 )
-def test_batch_hard_soft_margin_triplet_loss(distance, expected_loss):
-    embeddings = torch.tensor([[0.1, 0.3, 0.5], [0.6, 0.8, 1.0], [0.8, 0.6, 0.0], [0.9, 0.2, -0.5]])
+def test_batch_hard_soft_margin_triplet_loss(embeddings, distance, expected_loss):
     labels = torch.tensor([0, 1, 1, 0])
     criterion = BatchHardSoftMarginTripletLoss(distance=distance)
     loss = criterion(embeddings=embeddings, labels=labels)

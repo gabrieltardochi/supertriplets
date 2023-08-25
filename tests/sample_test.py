@@ -3,6 +3,36 @@ import pytest
 from supertriplets.sample import ImageSample, TextImageSample, TextSample
 
 
+@pytest.fixture(params=["foo", "bar"])
+def valid_text(request):
+    return request.param
+
+
+@pytest.fixture(params=["tests/data/cat.jpg", "tests/data/dog.jpg"])
+def valid_image_path(request):
+    return request.param
+
+
+@pytest.fixture(params=[0, 1])
+def valid_label(request):
+    return request.param
+
+
+@pytest.fixture(params=[None, 0])
+def invalid_text(request):
+    return request.param
+
+
+@pytest.fixture(params=[None, "tests/data/cat.png", "tests/data/not_a_dog.jpg"])
+def invalid_image_path(request):
+    return request.param
+
+
+@pytest.fixture(params=[None, 1.0, "0"])
+def invalid_label(request):
+    return request.param
+
+
 def test_valid_text_sample(valid_text, valid_label):
     text_sample = TextSample(text=valid_text, label=valid_label)
     expected_text_sample_data = {"text": valid_text, "label": valid_label}
