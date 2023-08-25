@@ -16,7 +16,7 @@ class TextSample:
         return dict(text=self.text, label=self.label)
 
     def __repr__(self) -> str:
-        return f"text={self.text}, label={self.label}"
+        return f"(text={self.text}, label={self.label}))"
 
 
 class ImageSample:
@@ -34,7 +34,7 @@ class ImageSample:
         return dict(image_path=self.image_path, label=self.label)
 
     def __repr__(self) -> str:
-        return f"image_path={self.image_path}, label={self.label}"
+        return f"(image_path={self.image_path}, label={self.label})"
 
 
 class TextImageSample:
@@ -54,4 +54,4 @@ class TextImageSample:
         return dict(text=self.text, image_path=self.image_path, label=self.label)
 
     def __repr__(self) -> str:
-        return f"text={self.text}, image_path={self.image_path}, label={self.label}"
+        return f"(text={self.text}, image_path={self.image_path}, label={self.label})"
