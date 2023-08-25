@@ -9,12 +9,12 @@ from supertriplets.loss import (
 )
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def embeddings():
     return torch.tensor([[0.1, 0.3, 0.5], [0.6, 0.8, 1.0], [0.8, 0.6, 0.0], [0.9, 0.2, -0.5]])
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def labels():
     return torch.tensor([0, 1, 1, 0])
 

@@ -5,7 +5,7 @@ from supertriplets.encoder import PretrainedSampleEncoder
 from supertriplets.sample import TextSample
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def examples():
     return [
         TextSample("yada yada", 0),

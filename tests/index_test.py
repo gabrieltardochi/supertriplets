@@ -5,12 +5,12 @@ from supertriplets.index import TripletMiningEmbeddingsIndex
 from supertriplets.sample import TextSample
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def examples():
     return [TextSample("a", 0), TextSample("b", 0), TextSample("c", 1), TextSample("d", 1)]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def embeddings():
     return np.array([[0.1, 0.3, 0.5], [0.7, 0.8, 0.9], [0.1, 0.3, 0.5], [0.7, 0.8, 0.9]])
 
