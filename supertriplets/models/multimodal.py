@@ -51,7 +51,7 @@ class CLIPViTB32MultilingualEncoder(nn.Module):
             max_length=max_length,
         )
         text_input = {k: v.squeeze() for k, v in text_input.items()}
-        image_input = self.processor(Image.open(image_path), return_tensors=return_tensors)
+        image_input = self.processor(Image.open(image_path), return_tensors=return_tensors).data
         image_input["pixel_values"] = image_input["pixel_values"].squeeze()
         label = torch.tensor(label)
         return {"text_input": text_input, "image_input": image_input, "label": label}
@@ -120,7 +120,7 @@ class CLIPViTB32EnglishEncoder(nn.Module):
             max_length=max_length,
         )
         text_input = {k: v.squeeze() for k, v in text_input.items()}
-        image_input = self.processor(Image.open(image_path), return_tensors=return_tensors)
+        image_input = self.processor(Image.open(image_path), return_tensors=return_tensors).data
         image_input["pixel_values"] = image_input["pixel_values"].squeeze()
         label = torch.tensor(label)
         return {"text_input": text_input, "image_input": image_input, "label": label}
