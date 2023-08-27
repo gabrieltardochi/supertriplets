@@ -50,7 +50,7 @@ class PretrainedSampleEncoder:
     def _calculate_embeddings(self, dataloader: DataLoader, device: Union[str, torch.device]) -> np.ndarray:
         batch_embeddings = []
         with torch.no_grad():
-            for batch in tqdm(dataloader, total=len(dataloader.dataset), desc="Encoding samples"):
+            for batch in tqdm(dataloader, total=len(dataloader), desc="Encoding samples"):
                 inputs = batch["samples"]
                 del inputs["label"]
                 if "text_input" in inputs:
