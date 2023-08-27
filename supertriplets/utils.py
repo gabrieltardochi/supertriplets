@@ -15,4 +15,4 @@ def move_tensors_to_device(obj, device):
             res.append(move_tensors_to_device(v, device))
         return res
     else:
-        raise TypeError("Invalid type")
+        raise TypeError(f"Invalid obj type: {type(obj)}")
