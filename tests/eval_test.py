@@ -34,7 +34,7 @@ def test_triplet_embeddings_evaluator(embeddings_anchors, embeddings_positives, 
     evaluator = TripletEmbeddingsEvaluator(
         calculate_by_cosine=True, calculate_by_manhattan=True, calculate_by_euclidean=True
     )
-    metrics = evaluator(
+    metrics = evaluator.evaluate(
         embeddings_anchors=embeddings_anchors,
         embeddings_positives=embeddings_positives,
         embeddings_negatives=embeddings_negatives,
@@ -46,8 +46,10 @@ def test_triplet_embeddings_evaluator(embeddings_anchors, embeddings_positives, 
 
 
 def test_hard_triplet_miner(examples, embeddings):
-    miner = HardTripletsMiner(examples=examples, embeddings=embeddings, use_gpu_powered_index_if_available=False)
-    anchors, positives, negatives = miner.mine(sample_from_topk_hardest=1)
+    miner = HardTripletsMiner(use_gpu_powered_index_if_available=True)
+    anchors, positives, negatives = miner.mine(
+        examples=examples, embeddings=embeddings, normalize_l2=True, sample_from_topk_hardest=1
+    )
     assert anchors == examples
     assert positives == [examples[i] for i in [1, 0, 3, 2]]
     assert negatives == [examples[i] for i in [2, 3, 0, 1]]
