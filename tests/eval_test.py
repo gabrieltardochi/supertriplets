@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from supertriplets.eval import HardTripletsMiner, TripletEmbeddingsEvaluator
+from supertriplets.evaluate import HardTripletsMiner, TripletEmbeddingsEvaluator
 from supertriplets.sample import TextSample
 
 
