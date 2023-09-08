@@ -5,8 +5,8 @@
 ![PyPI - Package Version](https://img.shields.io/pypi/v/supertriplets?logo=pypi&style=plastic)
 <!--- BADGES: END --->
 # SuperTriplets
-SuperTriplets is a toolbox for supervised online hard triplet learning, currently supporting different kinds of data: text, image, and even text + image (multimodal).
-It by no means tries to automate the training and evaluation loop for you. Instead, it provides useful PyTorch-based utilities you can couple to your existing code, making the process as easy as performing other everyday supervised learning tasks, such as classification and regression.  
+SuperTriplets is a toolbox for supervised online hard triplet learning, currently supporting different kinds of data: text, image, and even text + image (multimodal).  
+It doesn't try to automate the training and evaluation loop for you. Instead, it provides useful PyTorch-based utilities you can couple to your existing code, making the process as easy as performing other everyday supervised learning tasks, such as classification and regression.
 ![triplet learning iteration example](docs/hard_triplet_loss.png)
 ## Installation and Supported Versions
 SuperTriplets is available on PyPI:
@@ -94,7 +94,7 @@ device = 'cuda:0' if torch.cuda.is_available() else 'cpu'  # always use cuda if 
 
 # SuperTriplets provides very basic `sample` classes to store and manipulate datapoints
 test_examples = [
-    TextImageSample(text=text, image_path=image_path, label=label) 
+    TextImageSample(text=text, image_path=image_path, label=label)
     for text, image_path, label in zip(test_df['text'], test_df['image_path'], test_df['label'])
 ]
 
@@ -173,7 +173,8 @@ test_baseline_accuracies = triplet_embeddings_evaluator.evaluate(
 # ... continue using `triplet_embeddings_evaluator` within your evaluation loops
 ```
 ## Local Development
-Make sure you have python3, python3-venv and make installed. Create a virtual environment with an editable installation of SuperTriplets and development specific dependencies by running:  
+Make sure you have python3, python3-venv and make installed.  
+Create a virtual environment with an editable installation of SuperTriplets and development specific dependencies by running:
 ```console
 $ make install
 ```
