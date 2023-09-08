@@ -6,8 +6,8 @@
 <!--- BADGES: END --->
 # SuperTriplets
 SuperTriplets is a toolbox for supervised online hard triplet learning, currently supporting different kinds of data: text, image, and even text + image (multimodal).  
-It doesn't try to automate the training and evaluation loop for you. Instead, it provides useful PyTorch-based utilities you can couple to your existing code, making the process as easy as performing other everyday supervised learning tasks, such as classification and regression.
-![triplet learning iteration example](docs/hard_triplet_loss.png)
+It doesn't try to automate the training and evaluation loop for you. Instead, it provides useful PyTorch-based utilities you can couple to your existing code, making the process as easy as performing other everyday supervised learning tasks, such as classification and regression.  
+![triplet learning iteration example](https://github.com/gabrieltardochi/supertriplets/blob/main/docs/hard_triplet_loss.png?raw=true)
 ## Installation and Supported Versions
 SuperTriplets is available on PyPI:
 ```console
