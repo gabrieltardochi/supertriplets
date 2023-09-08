@@ -16,7 +16,16 @@ Types of changes
 -->
 
 ## [Unreleased]
-
+### Added
+- pytest tests for each module
+- tinyimmdb dataset with model convergence test
+- README.md updated with examples and library description
+- Docstrings on most classes and functions
+- Added classifiers on PyPI
+### Changed
+- Major refactor
+- API changes
+- Many bugfixes
 ## [0.1.0] - 2023-08-19
 ### Added
 

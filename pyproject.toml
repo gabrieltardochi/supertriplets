@@ -6,6 +6,17 @@ build-backend = "setuptools.build_meta"
 name = "supertriplets"
 description = "Torch Multimodal Supervised Triplet Learning Toolbox"
 readme = "README.md"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13"
+]
 requires-python = ">=3.8"
 license = {file = "LICENSE.txt"}
 keywords = [
