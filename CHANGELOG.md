@@ -16,6 +16,8 @@ Types of changes
 -->
 
 ## [Unreleased]
+### Changed
+- Fix readme image not displaying in PyPI
 ## [1.0.0] - 2023-09-08
 ### Added
 - pytest tests for each module
