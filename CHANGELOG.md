@@ -16,6 +16,8 @@ Types of changes
 -->
 
 ## [Unreleased]
+
+## [1.0.1] - 2023-09-08
 ### Fixed
 - Fix readme image not displaying in PyPI
 ## [1.0.0] - 2023-09-08
