@@ -16,6 +16,9 @@ Types of changes
 -->
 
 ## [Unreleased]
+### Fixed
+- Relative paths on README.md
+- Missing PyPI package link
 
 ## [1.0.1] - 2023-09-08
 ### Fixed
