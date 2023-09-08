@@ -16,6 +16,7 @@ Types of changes
 -->
 
 ## [Unreleased]
+## [1.0.0] - 2023-09-08
 ### Added
 - pytest tests for each module
 - tinyimmdb dataset with model convergence test
