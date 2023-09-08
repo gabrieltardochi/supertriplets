@@ -9,7 +9,7 @@ SuperTriplets is a toolbox for supervised online hard triplet learning, currentl
 It doesn't try to automate the training and evaluation loop for you. Instead, it provides useful PyTorch-based utilities you can couple to your existing code, making the process as easy as performing other everyday supervised learning tasks, such as classification and regression.  
 ![triplet learning iteration example](https://github.com/gabrieltardochi/supertriplets/blob/main/docs/hard_triplet_loss.png?raw=true)
 ## Installation and Supported Versions
-SuperTriplets is available on PyPI:
+SuperTriplets is available on [PyPI](https://pypi.org/project/supertriplets/):
 ```console
 $ pip install supertriplets
 ```
@@ -192,6 +192,6 @@ With a GPU:
 $ python -m pytest
 ```
 ## Changelog
-See [CHANGELOG.md](CHANGELOG.md) for news on all SuperTriplets versions.
+See [CHANGELOG.md](https://github.com/gabrieltardochi/supertriplets/blob/main/CHANGELOG.md) for news on all SuperTriplets versions.
 ## License
-See [LICENSE](LICENSE.txt) for the current license.
+See [LICENSE](https://github.com/gabrieltardochi/supertriplets/blob/main/LICENSE.txt) for the current license.
