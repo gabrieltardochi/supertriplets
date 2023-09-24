@@ -16,9 +16,13 @@ Types of changes
 -->
 
 ## [Unreleased]
+## [1.0.4] - 2023-09-23
+### Fixed
+- Actually fixes what 1.0.3 wanted to do:
+    - Models package not included with releases (`supertriplets.models`)
 ## [1.0.3] - 2023-09-23
 ### Fixed
-- Models package not included with releases (`supertriplets.models`)
+- Models package not included with releases (`supertriplets.models`) _(did not work, see 1.0.4)_
 ## [1.0.2] - 2023-09-08
 ### Fixed
 - Relative paths on README.md
