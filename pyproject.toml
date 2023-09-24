@@ -68,7 +68,7 @@ Repository = "https://github.com/gabrieltardochi/supertriplets"
 Changelog = "https://github.com/gabrieltardochi/supertriplets/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
-include = ["supertriplets"]
+include = ["supertriplets", "supertriplets.models"]
 
 [tool.setuptools.dynamic]
 version = {attr = "supertriplets.__version__"}
