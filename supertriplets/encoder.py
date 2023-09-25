@@ -9,6 +9,7 @@ from tqdm import tqdm
 from .dataset import SampleEncodingDataset
 from .models import load_pretrained_model
 from .sample import ImageSample, TextImageSample, TextSample
+from .utils import move_tensors_to_device
 
 
 class PretrainedSampleEncoder:
@@ -112,9 +113,9 @@ class PretrainedSampleEncoder:
                 inputs = batch["samples"]
                 del inputs["label"]
                 if "text_input" in inputs:
-                    inputs["text_input"] = {k: v.to(device) for k, v in inputs["text_input"].items()}
+                    inputs["text_input"] = move_tensors_to_device(obj=inputs["text_input"], device=device)
                 if "image_input" in inputs:
-                    inputs["image_input"] = {k: v.to(device) for k, v in inputs["image_input"].items()}
+                    inputs["image_input"] = move_tensors_to_device(obj=inputs["image_input"], device=device)
                 this_batch_embeddings = self.model(**inputs)
                 batch_embeddings.append(this_batch_embeddings.cpu())
         embeddings = torch.cat(batch_embeddings, dim=0).numpy()
