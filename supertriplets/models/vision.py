@@ -30,12 +30,12 @@ class TIMMResNet18Encoder(nn.Module):
                 transforms.Normalize(mean=normalize_mean, std=normalize_std),
             ]
         )
-        image_input = processor(image).unsqueeze(0)
+        image_input = processor(image).squeeze()
         label = torch.tensor(label)
         return {"image_input": image_input, "label": label}
 
     def forward(self, image_input: Tensor) -> Tensor:
-        image_features = self.model(image_input)
+        image_features = self.image_model(image_input)
         return image_features.squeeze()
 
 
@@ -61,10 +61,10 @@ class TIMMEfficientNetB0Encoder(nn.Module):
                 transforms.Normalize(mean=normalize_mean, std=normalize_std),
             ]
         )
-        image_input = processor(image).unsqueeze(0)
+        image_input = processor(image).squeeze()
         label = torch.tensor(label)
         return {"image_input": image_input, "label": label}
 
     def forward(self, image_input: Tensor) -> Tensor:
-        image_features = self.model(image_input)
+        image_features = self.image_model(image_input)
         return image_features.squeeze()

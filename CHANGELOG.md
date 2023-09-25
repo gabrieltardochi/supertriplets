@@ -16,6 +16,8 @@ Types of changes
 -->
 
 ## [Unreleased]
+### Fixed
+- Vision pretrained models from model zoo problems on forward and preprocess methods
 ## [1.0.5] - 2023-09-24
 ### Fixed
 - PretrainedSampleEncoder with ImageSamples not working, bugfix
