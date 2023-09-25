@@ -16,6 +16,7 @@ Types of changes
 -->
 
 ## [Unreleased]
+## [1.0.6] - 2023-09-25
 ### Fixed
 - Vision pretrained models from model zoo problems on forward and preprocess methods
 ## [1.0.5] - 2023-09-24
