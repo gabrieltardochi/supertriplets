@@ -16,6 +16,9 @@ Types of changes
 -->
 
 ## [Unreleased]
+## [1.0.5] - 2023-09-24
+### Fixed
+- PretrainedSampleEncoder with ImageSamples not working, bugfix
 ## [1.0.4] - 2023-09-23
 ### Fixed
 - Actually fixes what 1.0.3 wanted to do:
